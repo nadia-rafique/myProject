@@ -190,7 +190,7 @@ h4{
     height: 250px;
 }
 .sanf{
-    margin-right: 250px;
+    margin-right: 150px;
     width: 300px;
-    height: 250px;
+    max-height: 350px;
 }
