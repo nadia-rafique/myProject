@@ -102,7 +102,6 @@ h4{
     grid-column: 1/-1;
     grid-row: 1/2;
     width: 100%;
-    height: auto;
     background-color: #2d2d30;
 }
 .tour{
@@ -169,4 +168,29 @@ h4{
     background-color: #777;
     border-radius: 10px;
     border-radius:20px ;
+}
+.places{
+    display: grid;
+    grid-row: 3/4;
+    width: 100%;
+    height: auto;
+    grid-template-columns:repeat(3,auto);
+    color: #bdbdbd;
+    grid-gap:10px 20px;
+    
+}
+.pimg{
+    max-height: 350px;
+    margin-top: 20px;
+    width: 300px;
+}
+.ny{
+    margin-left: 150px;
+    width: 300px;
+    height: 250px;
+}
+.sanf{
+    margin-right: 250px;
+    width: 300px;
+    height: 250px;
 }
