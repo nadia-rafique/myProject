@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Band</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   
 </head>
 <body>
     <!--Header-->
@@ -13,13 +15,17 @@
         <nav class="container">
          <div class="logo">
              <img src="images/logo-codility.svg" alt="Codility logo">
+             <div class="ltext">
+                 <h4>New York</h4>
+                 <p>The atmosphere in New York is lorem ipsum.</p>
+             </div>
          </div>
          <div class="nav">
             <ul>
-              <li><a href="#">HOME</a></li>
-              <li><a href="#">TOUR</a></li>
-              <li><a href="#">ABOUT US</a></li>
-              <li><a href="#">CONTACT</a></li>
+              <li><a href="index.html">HOME</a></li>
+              <li><a href="#band">BAND</a></li>
+              <li><a href="#tour">ABOUT US</a></li>
+              <li><a href="#contact">CONTACT</a></li>
             </ul>
          </div>
         </nav>
@@ -31,7 +37,7 @@
         </div>
     </section>
     <!--Band Content-->
-    <section class="wrapper">
+    <section class="wrapper" id="band">
          <div class="band">
             <h4>The Band</h4>
             <p><em>We love music!</em> </p>
@@ -70,8 +76,8 @@
           </div>
          </div>
     </section>
-    <!--Tour Dates-->
-    <section class="wrapper1">
+    <!--Tour Section-->
+    <section class="wrapper1" id="tour">
         <div class="tour">
            <h4>TOUR DATES</h4>
            <p><em>Lorem ipsum we'll play you some music.<br>
@@ -95,22 +101,49 @@
          </div>
         </div>
         <div class="places">
-            <div class="ny">
-                <div class="pimg"> 
-                    <img src="images/newyork.jpeg" alt="">
+            <div class="card">
+                <img src="images/paris.jpeg" alt="Avatar" style="max-width:300px">
+                <div class="content">
+                  <h3><em>Paris</em></h3> 
+                  <p>Friday 27 November 2015</p>
+                  <button>Buy Tickets</button>
                 </div>
-            </div>
-            <div class="paris">
-                <div class="pimg">
-                    <img src="images/paris.jpeg" alt="">
+              </div>
+            <div class="card1">
+                <img src="images/newyork.jpeg" alt="Avatar" style="max-width:300px">
+                <div class="content">
+                  <h3><em>New York</em></h3> 
+                  <p>Friday 27 November 2015</p>
+                  <button>Buy Tickets</button>
                 </div>
-            </div>
-            <div class="sanf">
-                <div class="pimg">
-                    <img src="images/sanfran.jpeg" alt="">
+              </div>
+              <div class="card2">
+                <img src="images/sanfran.jpeg" alt="Avatar" style="max-width:300px">
+                <div class="content">
+                  <h3><em>San Francisco</em></h3> 
+                  <p>Friday 27 November 2015</p>
+                  <button>Buy Tickets</button>
                 </div>
-            </div>
+              </div>
         </div>
+   </section>
+   <!--Contact-->
+   <section id="contact">
+       <div class="cntct_content">
+          <h4>CONTACT</h4>
+          <p><em>We love our fans!</em></p>
+       </div>
+       <div class="content_form">
+           <div class="d_note">
+             <p>Fan? Drop a note.</p>
+             <p><i class="fa fa-map-marker" id="icons"></i>&nbsp;Chicago, US</p>
+             <p><i class="fa fa-mobile" id="icons"></i>&nbsp;Phone: +00 1515151515</p>
+             <p><i class="fa fa-envelope" id="icons"></i>&nbsp;Email: mail@mail.com</p>
+           </div>
+           <div class="c_form">
+            <p>Fan? Drop a note.</p>
+          </div>
+       </div>
    </section>
 </body>
 </html>
