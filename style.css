@@ -27,7 +27,7 @@ body{
 .ltext{
     color: #fff;
     position: absolute;
-    top: 66%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -88,14 +88,13 @@ h4{
     width: 100%;
     height: 380px;
     text-align: center;
-    grid-template-columns: repeat(3,3fr);
+    grid-template-columns: repeat(3,auto);
     grid-template-rows: auto;
-    column-gap: 20px;
 }
 .bandmmbr>img{
     border: 1px solid white;
     border-radius: 130px;
-    width: 50%;
+    width: 65%;
     height: 70%;
     margin-right: 30px;
 }
