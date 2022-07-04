@@ -237,7 +237,7 @@ h4{
   }
   .card2{
     max-width: 300px;
-    margin: 25px 0px 85px -100px;
+    margin: 25px 0px 85px -110px;
   }
   .cntct_content{
       text-align: center;
@@ -262,7 +262,7 @@ h4{
     grid-column: 3/span 6;
   }
   .fn{
-    padding: 10px 70px 10px 03px;
+    padding: 10px 105px 10px 03px;
     margin-top: 20px;
   }
   .email{
@@ -277,7 +277,7 @@ h4{
     color: white;
     width: 80px;
     height: 40px;
-    margin: 20px 0px 20px 425px;
+    margin: 20px 0px 20px 435px;
   }
   footer{
       text-align: center;
@@ -450,6 +450,182 @@ h4{
       }
       .email{
           margin-left: 20px;
+      }
+      .cmnt{
+        padding: 40px 300px 40px 03px;
+        margin-top: 22px;
+      }
+      .c_form>form>button{
+        margin: 20px 0px 20px 395px;
+      }
+  }
+  @media (max-width:480px) {
+    .nav-header>.nav-title>img{
+    width: 100px;
+    height: 40px;
+    margin-left: 30px;
+    margin-top: 58px;
+    margin-bottom: 5px;
+    }
+    .nav-btn {
+      display: inline-block;
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      box-sizing: border-box;
+    }
+    .nav-btn > label {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      padding: 13px;
+    }
+    .nav-btn > label > span {
+      display: block;
+      width: 25px;
+      height: 10px;
+      border-top: 2px solid #0c0b0b;
+    }
+    .nav-links {
+      position: absolute;
+      display: block;
+      width: 100%;
+      background-color: #d8d8df;
+      height: 0px;
+      transition: all 0.3s ease-in;
+      overflow-y: hidden;
+      top: 50px;
+      left: 0px;
+    }
+   .nav-links > a {
+      display: block;
+      width: 100%;
+    }
+    #nav-check:not(:checked) ~ .nav-header>.nav-title {
+      height: 0px;
+    }
+    #nav-check:checked ~ .nav-header>.nav-title {
+      height: calc(100vh - 380px);
+      overflow-y: auto;
+    }
+  }
+  @media screen and (max-width:769px) {
+    body{
+        margin: 0px;
+    }
+    .band>.bpara{
+        font-size:5vw;
+    }
+    .bandgrids{
+        display: grid;
+        grid-row: 2/3;
+        max-width: 60%;
+        max-height: 280px;
+        text-align: center;
+        grid-template-columns: auto auto auto;
+        grid-template-rows: auto;
+        margin-left: 145px;
+    }
+    .wrapper{
+        max-width: 100%;
+        height: 1474px;
+        background-color: rgb(216, 216, 223);
+    }
+    .item1{
+        margin-top: -330px;
+        height: 280px;
+        grid-column:1/4;
+        grid-row: 1/1;
+    }
+    .item2{
+        grid-column:1/4;
+        grid-row: 2/2;
+        height: 280px;
+        margin-top: 20px;
+    }
+    .item3{
+        grid-column:1/4;
+        grid-row: 3/3;
+        height: 280px;
+        margin-top: 60px;
+        margin-bottom: 0;
+    }
+    .bandgrids>div>p{
+        text-align: center;
+        margin-left: -30px;
+        font-size: 16px;
+    }
+    .bgimg>img{
+        max-width: 100%;
+    }
+    .ltext{
+        top: 72%;
+        font-size: 12px;
+    }
+    .ltext>h4{
+        font-size: 18px;
+        letter-spacing: 8px;
+    }
+    .ltext>p{
+        margin-top: -20px;
+    }
+    .wrapper1{
+        max-width: 100%;
+    }
+    .tour{
+       margin-left: -20px; 
+    }
+    .tourgrid{
+        max-width: 82%;
+    }
+    .sept>div{
+        background-color: white;
+        margin: 30px -90px 0px 55px;
+        padding: 10px;
+        border-bottom:1px solid #777;
+    }
+    .oct>div{
+        background-color: white;
+        margin: 0px -90px 0px 55px;
+        padding: 10px;
+        border-bottom:1px solid #777;
+    }
+    .nov>div{
+        background-color: white;
+        margin: 0px -90px 0px 55px;
+        padding: 10px;
+        border-bottom:1px solid #777;
+    }
+    .card{
+        grid-column:1/3;
+        grid-row: 1/-1;
+        margin: 25px 10px 0px 55px;
+    }
+    .card1{
+        grid-column:5/7;
+        grid-row: 1/-1;
+        margin:25px 0px 0px 0px;
+      }
+      .card2{
+        grid-column:3/7;
+        grid-row: 2/3;
+        margin: 35px 0px 25px -150px;
+      }
+      .d_note{
+        grid-column: 1/span 3;
+        padding-left: 25px;
+        padding-right: 15px;
+    }
+    .c_form{
+        grid-column: 4/span 5;
+        margin-left: 30px;
+      }
+      .fn{
+        padding: 10px 80px 10px 03px;
+        margin-top: 20px;
+      }
+      .email{
+          margin-left: 20px;
           padding: 10px 80px 10px 03px;
       }
       .cmnt{
@@ -460,4 +636,3 @@ h4{
         margin: 20px 0px 20px 395px;
       }
   }
-  
