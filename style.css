@@ -365,7 +365,7 @@ h4{
     margin: 20px 0px 20px 435px;
   }
   #map-img{
-    animation: bounceIn 6s ease-in;
+    animation: bounceIn 6s ease-in-out;
   }
   footer{
       text-align: center;
