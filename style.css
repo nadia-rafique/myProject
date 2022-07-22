@@ -188,7 +188,7 @@ h4{
     background-color: #2d2d30;
 }
 #tour{
-  animation: Slide_Up1 3.75s ease ;
+  animation: Slide_Up1 3 ease ;
 }
 .tour{
     grid-column: 1/-1;
