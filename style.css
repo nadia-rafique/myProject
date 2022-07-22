@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 body{
     font: 400 15px/1.8 Lato, "Helvetica Neue",Helvetica,Arial,sans-serif;
     color: #777;
@@ -55,7 +59,8 @@ body{
 .ltext>p{
     margin-top: -13px;
 }
-/*background-image*/
+/*slider*/
+
 .bgimg{
     display: grid;
     grid-column: 1/-1;
@@ -84,7 +89,7 @@ body{
     background-color: rgb(216, 216, 223);
 }
 #band{
-  animation: Slide_Up1 3s ease ;
+  animation: Slide_Up1 2s ease ;
 }
 @keyframes Slide_Up1{
   0%{
@@ -97,6 +102,21 @@ body{
 .band{
     grid-column: 1/-1;
     grid-row: 1/2;
+  animation: bounceIn 2s;
+}
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+    padding: 30px;
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 h4{
     text-align: center;
@@ -167,9 +187,21 @@ h4{
     max-width: 100%;
     background-color: #2d2d30;
 }
+#tour{
+  animation: Slide_Up1 3.75s ease ;
+}
+@keyframes Slide_Up1{
+  0%{
+    transform: translateY(650px);
+  }
+  100%{
+    transform: translateY(0);
+  }
+}
 .tour{
     grid-column: 1/-1;
     grid-row: 1/2;
+    animation: bounceIn 3.5s;
 }
 .tour>h4{
     text-align: center;
@@ -192,6 +224,7 @@ h4{
     grid-template-columns: auto;
     grid-template-rows: repeat(3,auto);
     color: #bdbdbd;
+    animation:  bounceIn 2s ease-in-out 1s 1 normal;
 }
 .sept>div{
     background-color: white;
@@ -240,6 +273,21 @@ h4{
     grid-template-columns:repeat(3,auto);
     color: #bdbdbd;
     text-align: center;
+    animation:  bounce 2s ease-in-out 1s 1 normal;
+}
+@keyframes bounce {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1);
+    opacity: 1;
+    padding: 30px;
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 .card {
     max-width: 300px;
