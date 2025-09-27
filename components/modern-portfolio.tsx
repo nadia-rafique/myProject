@@ -9,7 +9,7 @@ const DATA = {
   title: "Senior Frontend Developer",
   location: "Lahore, Pakistan",
   shortBio:
-    "Frontend Developer passionate about crafting accessible, pixel-perfect user interfaces that blend thoughtful design with robust engineering. My favorite work lies at the intersection of design and development, creating experiences that not only look great but are meticulously built for performance and usability.",
+    "Senior Frontend Developer passionate about crafting accessible, pixel-perfect user interfaces that blend thoughtful design with robust engineering. My favorite work lies at the intersection of design and development, creating experiences that not only look great but are meticulously built for performance and usability.",
   longBio:
     "Currently, I'm a Senior Frontend Developer specializing in modern web technologies. I contribute to the creation and maintenance of UI components that power enterprise applications, ensuring our platforms meet web accessibility standards and best practices to deliver inclusive user experiences.",
   skills: [
