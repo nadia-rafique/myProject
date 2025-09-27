@@ -533,13 +533,13 @@ export default function PortfolioSingleFile() {
             >
               <a
                 href="https://www.linkedin.com/in/nadia-rafique-46a9661b7/"
-                className="text-gray-400 hover:text-cyan-400 transition-colors hover:scale-110 transform duration-200"
+                className="text-gray-400 hover:text-cyan-400 transition-colors hover:scale-110 transform duration-200" target="_blank"
               >
                 <Linkedin size={20} />
               </a>
               <a
                 href="mailto:nadiarafique1441@gmail.com"
-                className="text-gray-400 hover:text-cyan-400 transition-colors hover:scale-110 transform duration-200"
+                className="text-gray-400 hover:text-cyan-400 transition-colors hover:scale-110 transform duration-200" target="_blank"
               >
                 <Mail size={20} />
               </a>
