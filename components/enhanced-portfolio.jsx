@@ -516,8 +516,8 @@ export default function PortfolioSingleFile() {
                 View My Work
               </button>
               <a
-                href="/Nadia_Resume.pdf"
-                download="Nadia_Resume.pdf"
+                href="/Nadia Rafique (Senior FE Dev).pdf"
+                download="Nadia Rafique (Senior FE Dev).pdf"
                 className="px-6 py-3 border border-gray-600 text-white rounded-lg font-medium hover:bg-gray-800/50 transition-all flex items-center gap-2 hover:scale-105"
                 target="_blank"
               >
