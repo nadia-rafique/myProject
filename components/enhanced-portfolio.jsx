@@ -532,19 +532,13 @@ export default function PortfolioSingleFile() {
               className="flex items-center gap-4 pt-4 justify-center"
             >
               <a
-                href="#"
-                className="text-gray-400 hover:text-cyan-400 transition-colors hover:scale-110 transform duration-200"
-              >
-                <Github size={20} />
-              </a>
-              <a
-                href="#"
+                href="https://www.linkedin.com/in/nadia-rafique-46a9661b7/"
                 className="text-gray-400 hover:text-cyan-400 transition-colors hover:scale-110 transform duration-200"
               >
                 <Linkedin size={20} />
               </a>
               <a
-                href={`mailto:${DATA.contactEmail}`}
+                href="mailto:nadiarafique1441@gmail.com"
                 className="text-gray-400 hover:text-cyan-400 transition-colors hover:scale-110 transform duration-200"
               >
                 <Mail size={20} />
