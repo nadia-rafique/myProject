@@ -257,19 +257,13 @@ export default function ModernPortfolio() {
 
                   <div className="flex items-center justify-center gap-4">
                     <a
-                      href="#"
-                      className="p-3 bg-card rounded-lg border border-border hover:border-primary/20 transition-colors"
-                    >
-                      <Github size={20} className="text-muted-foreground" />
-                    </a>
-                    <a
-                      href="#"
+                      href="https://www.linkedin.com/in/nadia-rafique-46a9661b7/"
                       className="p-3 bg-card rounded-lg border border-border hover:border-primary/20 transition-colors"
                     >
                       <Linkedin size={20} className="text-muted-foreground" />
                     </a>
                     <a
-                      href={`mailto:${DATA.contactEmail}`}
+                      href={`mailto:nadiarafique1441@gmail.com`}
                       className="p-3 bg-card rounded-lg border border-border hover:border-primary/20 transition-colors"
                     >
                       <Mail size={20} className="text-muted-foreground" />
