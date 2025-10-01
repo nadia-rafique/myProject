@@ -32,21 +32,21 @@ const DATA = {
   experiences: [
     {
       role: "Frontend Developer",
-      company: "Prismecs",
+      company: "Prismecs (Lahore)",
       date: "June 2024 – Present",
       details:
         "Develop responsive, user-centric interfaces with HTML5, CSS3, JavaScript, Bootstrap, and Tailwind CSS. Ensure performance, accessibility, and cross-browser compatibility. Collaborate with UX/UI designers and backend developers to integrate Laravel-based apps and REST APIs.",
     },
     {
       role: "Frontend Developer",
-      company: "Codility Solutions",
+      company: "Codility Solutions (Lahore)",
       date: "2022 – Feb 2024",
       details:
         "Designed and implemented responsive, mobile-first interfaces using HTML5, CSS3, Tailwind, Bootstrap, and Material UI. Built scalable apps with Laravel, React.js, Vue.js, and Next.js. Optimised performance and accessibility, collaborated closely with UX/UI teams.",
     },
     {
       role: "Web Instructor",
-      company: "Al-Khwarizmi Institute of Computer Science (KICS)",
+      company: "Al-Khwarizmi Institute of Computer Science (UET, Lahore)",
       date: "2021 – 2022",
       details:
         "Conducted training in frontend and backend technologies (HTML, CSS, Bootstrap, JavaScript, PHP, MySQL). Delivered lessons on WordPress development and guided students in building responsive, dynamic websites.",
@@ -59,7 +59,7 @@ const DATA = {
       description:
         "Led frontend development of Prismecs' corporate site with responsive, modern UI, reusable components, and SEO optimisation.",
       url: "https://prismecs.com/",
-      image: "/modern-corporate-website-with-blue-theme.jpg",
+      image: "/modern-corporate-website-with-blue-theme.png",
     },
     {
       title: "eIndustrify Marketplace",
@@ -67,7 +67,7 @@ const DATA = {
       description:
         "Developed full frontend for eIndustrify's B2B industrial marketplace. Built product catalog, category filtering, quick order forms, and improved UX for mobile/desktop.",
       url: "https://eindustrify.com/",
-      image: "/industrial-marketplace-website-with-product-catalo.jpg",
+      image: "/industrial-marketplace-website-with-product-catalo.png",
     },
     {
       title: "Jamiah School Management System",
@@ -335,14 +335,14 @@ const ProjectModal = ({ project, onClose }) => {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 px-6 py-3 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg font-medium hover:from-accent hover:to-primary transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
+                className="px-6 py-2 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg font-medium hover:from-accent hover:to-primary transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
               >
                 <ExternalLink size={16} />
                 Visit Website
               </a>
               <button
                 onClick={onClose}
-                className="flex-1 px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-muted/50 transition-all flex items-center justify-center gap-2"
+                className="px-6 py-2 border border-transparent text-black bg-white hover:border-white hover:text-white rounded-lg font-medium hover:bg-muted/50 transition-all flex items-centre justify-centre gap-2"
               >
                 Close
               </button>
