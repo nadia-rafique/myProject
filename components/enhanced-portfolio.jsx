@@ -65,7 +65,7 @@ const DATA = {
       title: "eIndustrify Marketplace",
       tags: ["HTML5", "CSS3", "JavaScript", "Responsive Design", "Cross-Browser Compatibility"],
       description:
-        "Developed full frontend for eIndustrify's B2B industrial marketplace. Built product catalog, category filtering, quick order forms, and improved UX for mobile/desktop.",
+        "Developed full frontend for eIndustrify's B2B industrial marketplace. Built product catalogue, category filtering, quick order forms, and improved UX for mobile/desktop.",
       url: "https://eindustrify.com/",
       image: "/industrial-marketplace-website-with-product-catalo.png",
     },
@@ -201,32 +201,25 @@ const ProjectCard = ({ p, i, onCardClick }) => {
           
           {/* -------------------- START FIX: IMAGE LINK WRAPPER -------------------- */}
           <a
-            href={p.url === '#' ? undefined : p.url} // Use undefined for a hash URL to prevent navigation
-            target="_blank" // Always attempt to open in a new tab
+            href={p.url === '#' ? undefined: p.url} 
+            target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => {
-              // Stop propagation to prevent the parent card's onClick (which opens the modal) from firing
               e.stopPropagation(); 
-              // If the URL is just '#', prevent the default browser action (reloading the page/jumping to top)
               if (p.url === '#') {
                 e.preventDefault(); 
               }
             }}
-            // Ensure the link covers the image area and is above any overlays
             className="block w-full h-full relative z-20" 
           >
             <img
               src={p.image || "/placeholder.svg"}
               alt={p.title}
-              // Set the image object-fit and transition properties
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </a>
           {/* -------------------- END FIX: IMAGE LINK WRAPPER -------------------- */}
 
-
-          {/* Overlay and button position adjusted to be *under* the clickable image link */}
-          {/* Overlay to darken the image slightly on hover */}
           <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
           
           {/* View Button (Optional, as the image itself is now the main link) */}
@@ -235,7 +228,7 @@ const ProjectCard = ({ p, i, onCardClick }) => {
               href={p.url}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()} // Prevent card click when clicking link
+              onClick={(e) => e.stopPropagation()} 
               className="inline-flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg text-sm hover:from-accent hover:to-primary transition-all duration-300 shadow-lg"
             >
               <ExternalLink size={14} />
@@ -357,14 +350,14 @@ const ProjectModal = ({ project, onClose }) => {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 px-6 py-3 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg font-medium hover:from-accent hover:to-primary transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
+                className="px-6 py-2 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg font-medium hover:from-accent hover:to-primary transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
               >
                 <ExternalLink size={16} />
                 Visit Website
               </a>
               <button
                 onClick={onClose}
-                className="flex-1 px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-muted/50 transition-all flex items-center justify-center gap-2"
+                className="px-6 py-2 border border-transparent text-black hover:text-white bg-white hover:border-white rounded-lg font-medium hover:bg-muted/50 transition-all flex items-centre justify-centre gap-2"
               >
                 Close
               </button>
