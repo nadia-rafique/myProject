@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
-import { Mail, Send, CheckCircle, ExternalLink, Github, Linkedin, Download, X } from "lucide-react" // Added 'X' for modal close
+import { Mail, Send, CheckCircle, ExternalLink, Github, Linkedin, Download, X } from "lucide-react" 
 
 const DATA = {
   name: "Nadia Rafique",
@@ -32,23 +32,23 @@ const DATA = {
   experiences: [
     {
       role: "Frontend Developer",
-      company: "Prismecs (Lahore)",
+      company: "Prismecs",
       date: "June 2024 – Present",
       details:
         "Develop responsive, user-centric interfaces with HTML5, CSS3, JavaScript, Bootstrap, and Tailwind CSS. Ensure performance, accessibility, and cross-browser compatibility. Collaborate with UX/UI designers and backend developers to integrate Laravel-based apps and REST APIs.",
     },
     {
       role: "Frontend Developer",
-      company: "Codility Solutions (Lahore)",
+      company: "Codility Solutions",
       date: "2022 – Feb 2024",
       details:
         "Designed and implemented responsive, mobile-first interfaces using HTML5, CSS3, Tailwind, Bootstrap, and Material UI. Built scalable apps with Laravel, React.js, Vue.js, and Next.js. Optimised performance and accessibility, collaborated closely with UX/UI teams.",
     },
     {
       role: "Web Instructor",
-      company: "Al-Khwarizmi Institute of Computer Science (UET, Lahore)",
+      company: "Al-Khwarizmi Institute of Computer Science (KICS)",
       date: "2021 – 2022",
-      details: 
+      details:
         "Conducted training in frontend and backend technologies (HTML, CSS, Bootstrap, JavaScript, PHP, MySQL). Delivered lessons on WordPress development and guided students in building responsive, dynamic websites.",
     },
   ],
@@ -59,15 +59,15 @@ const DATA = {
       description:
         "Led frontend development of Prismecs' corporate site with responsive, modern UI, reusable components, and SEO optimisation.",
       url: "https://prismecs.com/",
-      image: "/modern-corporate-website-with-blue-theme.png",
+      image: "/modern-corporate-website-with-blue-theme.jpg",
     },
     {
       title: "eIndustrify Marketplace",
       tags: ["HTML5", "CSS3", "JavaScript", "Responsive Design", "Cross-Browser Compatibility"],
       description:
-        "Developed full frontend for eIndustrify's B2B industrial marketplace. Built product catalogue, category filtering, quick order forms, and improved UX for mobile/desktop.",
+        "Developed full frontend for eIndustrify's B2B industrial marketplace. Built product catalog, category filtering, quick order forms, and improved UX for mobile/desktop.",
       url: "https://eindustrify.com/",
-      image: "/industrial-marketplace-website-with-product-catalo.png",
+      image: "/industrial-marketplace-website-with-product-catalo.jpg",
     },
     {
       title: "Jamiah School Management System",
@@ -137,7 +137,7 @@ const Badge = ({ children, variant = "default", onClick }) => {
       "bg-gradient-to-r from-accent/20 to-primary/20 text-accent border-accent/30 hover:from-accent/30 hover:to-primary/30",
     secondary:
       "bg-gradient-to-r from-secondary to-muted text-secondary-foreground border-border hover:from-muted hover:to-secondary",
-    showMore: // New variant for the "+X more" badge
+    showMore: 
       "bg-gradient-to-r from-secondary/50 to-muted/50 text-secondary-foreground border-border hover:from-muted hover:to-secondary cursor-pointer",
   }
 
@@ -164,7 +164,7 @@ const ExperienceCard = ({ item, index }) => (
       <div className="flex items-start justify-between mb-3">
         <div>
           <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">{item.role}</h4>
-          <div className="text-sm text-white">{item.company}</div>
+          <div className="text-sm text-muted-foreground">{item.company}</div>
         </div>
         <div className="text-xs text-muted-foreground bg-gradient-to-r from-secondary/50 to-muted/50 px-2 py-1 rounded">
           {item.date}
@@ -175,15 +175,12 @@ const ExperienceCard = ({ item, index }) => (
   </motion.div>
 )
 
-
-// Updated ProjectCard with verified image clickability
-
 const ProjectCard = ({ p, i, onCardClick }) => {
   const [showAllTags, setShowAllTags] = useState(false)
   const tagsToShow = showAllTags ? p.tags : p.tags.slice(0, 3)
 
   const handleBadgeClick = (e) => {
-    e.stopPropagation() // Prevent the card click from triggering when clicking the badge
+    e.stopPropagation() 
     setShowAllTags(true)
   }
 
@@ -192,17 +189,16 @@ const ProjectCard = ({ p, i, onCardClick }) => {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.1 + i * 0.05, duration: 0.4 }}
-      onClick={() => onCardClick(p)} // Click the card body to open modal
+      onClick={() => onCardClick(p)} 
       className="group block rounded-xl overflow-hidden glass-effect hover-lift relative cursor-pointer"
     >
       <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-0 group-hover:opacity-20 transition-opacity duration-500 animate-rainbow-flow" />
       <div className="relative z-10">
         <div className="relative h-48 w-full bg-gradient-to-br from-secondary/20 to-muted/20 overflow-hidden">
           
-          {/* -------------------- START FIX: IMAGE LINK WRAPPER -------------------- */}
           <a
-            href={p.url === '#' ? undefined: p.url} 
-            target="_blank"
+            href={p.url === '#' ? undefined : p.url} 
+            target="_blank" 
             rel="noopener noreferrer"
             onClick={(e) => {
               e.stopPropagation(); 
@@ -218,11 +214,9 @@ const ProjectCard = ({ p, i, onCardClick }) => {
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </a>
-          {/* -------------------- END FIX: IMAGE LINK WRAPPER -------------------- */}
-
+          
           <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
           
-          {/* View Button (Optional, as the image itself is now the main link) */}
           <div className="absolute bottom-4 right-4 z-30 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
             <a
               href={p.url}
@@ -247,13 +241,11 @@ const ProjectCard = ({ p, i, onCardClick }) => {
                 {t}
               </Badge>
             ))}
-            {/* Logic for the "+X more" badge */}
             {!showAllTags && p.tags.length > 3 && (
               <Badge variant="showMore" onClick={handleBadgeClick}>
                 +{p.tags.length - 3} more
               </Badge>
             )}
-            {/* Optional: Show "less" button if all are showing */}
             {showAllTags && p.tags.length > 3 && (
               <Badge variant="secondary" onClick={(e) => { e.stopPropagation(); setShowAllTags(false) }}>
                 Show less
@@ -266,11 +258,9 @@ const ProjectCard = ({ p, i, onCardClick }) => {
   )
 }
 
-// New Project Modal Component
 const ProjectModal = ({ project, onClose }) => {
   if (!project) return null
 
-  // Close modal when pressing the Escape key
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === 'Escape') {
@@ -296,10 +286,9 @@ const ProjectModal = ({ project, onClose }) => {
         animate={{ y: 0, scale: 1 }}
         exit={{ y: 50, scale: 0.9 }}
         transition={{ type: "spring", stiffness: 100, damping: 20 }}
-        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
+        onClick={(e) => e.stopPropagation()} 
         className="w-full max-w-4xl glass-effect rounded-xl relative overflow-hidden my-auto"
       >
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 z-50 p-2 rounded-full bg-background/50 text-foreground hover:bg-background transition-colors shadow-lg"
@@ -307,7 +296,6 @@ const ProjectModal = ({ project, onClose }) => {
           <X size={20} />
         </button>
 
-        {/* Modal Content */}
         <div className="relative">
           {/* Image Section - NOW LINKS TO THE IMAGE FILE */}
           <div className="h-64 sm:h-80 w-full bg-gradient-to-br from-secondary/20 to-muted/20 overflow-hidden">
@@ -326,11 +314,9 @@ const ProjectModal = ({ project, onClose }) => {
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
               />
             </a>
-            {/* The overlay is still needed for visual effect */}
             <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent pointer-events-none" />
           </div>
 
-          {/* Details Section */}
           <div className="p-6 sm:p-8 relative z-10">
             <h2 className="text-3xl font-bold gradient-text mb-2 text-balance">{project.title}</h2>
             
@@ -338,7 +324,6 @@ const ProjectModal = ({ project, onClose }) => {
             
             <div className="flex flex-wrap gap-2 mb-6">
               {project.tags.map((t) => (
-                // Assuming Badge component is defined elsewhere
                 <Badge key={t} variant="accent">
                   {t}
                 </Badge>
@@ -350,14 +335,14 @@ const ProjectModal = ({ project, onClose }) => {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-2 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg font-medium hover:from-accent hover:to-primary transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg font-medium hover:from-accent hover:to-primary transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
               >
                 <ExternalLink size={16} />
                 Visit Website
               </a>
               <button
                 onClick={onClose}
-                className="px-6 py-2 border border-transparent text-black hover:text-white bg-white hover:border-white rounded-lg font-medium hover:bg-muted/50 transition-all flex items-centre justify-centre gap-2"
+                className="flex-1 px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-muted/50 transition-all flex items-center justify-center gap-2"
               >
                 Close
               </button>
@@ -375,13 +360,13 @@ const ContactForm = () => {
     name: "",
     email: "",
     message: "",
-  });
-  const [status, setStatus] = useState("idle");
-  const [errors, setErrors] = useState({});
+  })
+  const [status, setStatus] = useState("idle")
+  const [errors, setErrors] = useState({})
 
   // Regex for basic client-side checks
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const numberRegex = /\d/; // Checks for any digit (0-9)
+  const numberRegex = /\d/; 
 
   const validateField = (name, value) => {
     let error = "";
@@ -393,7 +378,7 @@ const ContactForm = () => {
     } else if (name === "name") {
       if (value.trim().length < 2) {
         error = "Name must be at least 2 characters.";
-      } else if (numberRegex.test(value)) { // ⬅️ NEW CHECK FOR NUMBERS
+      } else if (numberRegex.test(value)) {
         error = "Name cannot contain numbers.";
       }
     } else if (name === "message" && value.trim().length < 10) {
@@ -414,17 +399,15 @@ const ContactForm = () => {
       [name]: value,
     }));
     
-    // Validate the field immediately on change
     validateField(name, value);
   };
 
   const validateForm = () => {
     let isValid = true;
-
-    // Run validation on all fields for final check
+    
     if (!validateField('name', formData.name)) isValid = false;
     if (!validateField('email', formData.email)) isValid = false;
-    // Check message separately as it needs a minimum length of 10
+    
     if (!formData.message.trim() || formData.message.trim().length < 10) {
         setErrors(prevErrors => ({ ...prevErrors, message: "Message must be at least 10 characters." }));
         isValid = false;
@@ -447,25 +430,30 @@ const ContactForm = () => {
     setStatus("sending");
 
     try {
-      // Simulating API call success/failure
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      const response = { ok: true }; 
-
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+      
+      
       if (response.ok) {
-        setStatus("success");
-        setFormData({ name: "", email: "", message: "" });
+        setStatus("success")
+        setFormData({ name: "", email: "", message: "" })
         setErrors({}); 
-        setTimeout(() => setStatus("idle"), 5000);
+        setTimeout(() => setStatus("idle"), 5000)
       } else {
-        setStatus("error");
-        setTimeout(() => setStatus("idle"), 5000);
+        setStatus("error")
+        setTimeout(() => setStatus("idle"), 5000)
       }
     } catch (error) {
-      console.error("Error sending message:", error);
-      setStatus("error");
-      setTimeout(() => setStatus("idle"), 5000);
+      console.error("Error sending message:", error)
+      setStatus("error")
+      setTimeout(() => setStatus("idle"), 5000)
     }
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 glass-effect p-6 rounded-xl relative overflow-hidden">
@@ -589,8 +577,8 @@ const ContactForm = () => {
         )}
       </div>
     </form>
-  );
-};
+  )
+}
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -607,7 +595,7 @@ const Navigation = () => {
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({
-        behavior: "smooth",
+        behaviour: "smooth",
         block: "start",
       })
     }
@@ -618,7 +606,7 @@ const Navigation = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "glass-effect shadow-lg" : "bg-transparent"
+        isScrolled ? "glass-effect shadow-lg": "bg-transparent"
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -632,7 +620,7 @@ const Navigation = () => {
           </div>
         </motion.div>
 
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-centre gap-6">
           {[
             { name: "About", id: "about" },
             { name: "Projects", id: "projects" },
@@ -664,17 +652,16 @@ export default function PortfolioSingleFile() {
   const { scrollYProgress } = useScroll()
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
 
-  // State for the modal
   const [selectedProject, setSelectedProject] = useState(null)
 
   const handleProjectClick = (project) => {
     setSelectedProject(project)
-    document.body.style.overflow = 'hidden'; // Disable background scroll
+    document.body.style.overflow = 'hidden'; 
   }
 
   const handleCloseModal = () => {
     setSelectedProject(null)
-    document.body.style.overflow = 'unset'; // Enable background scroll
+    document.body.style.overflow = 'unset'; 
   }
 
   return (
@@ -823,7 +810,6 @@ export default function PortfolioSingleFile() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Pass the click handler to ProjectCard */}
             {DATA.projects.map((project, i) => (
               <ProjectCard key={project.title} p={project} i={i} onCardClick={handleProjectClick} />
             ))}
@@ -942,7 +928,6 @@ export default function PortfolioSingleFile() {
         </div>
       </footer>
       
-      {/* Project Modal is rendered here */}
       {selectedProject && <ProjectModal project={selectedProject} onClose={handleCloseModal} />}
     </div>
   )
