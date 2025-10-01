@@ -129,6 +129,8 @@ const DATA = {
   contactEmail: "nadiarafique1441@gmail.com",
 }
 
+const SKILLS_LIMIT = 8;
+
 const Badge = ({ children, variant = "default", onClick }) => {
   const variants = {
     default:
