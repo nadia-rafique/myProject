@@ -175,7 +175,9 @@ const ExperienceCard = ({ item, index }) => (
   </motion.div>
 )
 
-// Updated ProjectCard: Image is now a clickable link to the project URL
+
+// Updated ProjectCard with verified image clickability
+
 const ProjectCard = ({ p, i, onCardClick }) => {
   const [showAllTags, setShowAllTags] = useState(false)
   const tagsToShow = showAllTags ? p.tags : p.tags.slice(0, 3)
@@ -191,34 +193,44 @@ const ProjectCard = ({ p, i, onCardClick }) => {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.1 + i * 0.05, duration: 0.4 }}
       onClick={() => onCardClick(p)} // Click the card body to open modal
-      className="group block rounded-xl overflow-hidden glass-effect hover-lift relative cursor-pointer" // Added cursor-pointer
+      className="group block rounded-xl overflow-hidden glass-effect hover-lift relative cursor-pointer"
     >
       <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-0 group-hover:opacity-20 transition-opacity duration-500 animate-rainbow-flow" />
       <div className="relative z-10">
         <div className="relative h-48 w-full bg-gradient-to-br from-secondary/20 to-muted/20 overflow-hidden">
-          {/* IMAGE LINK WRAPPER: Now the image is clickable to open the URL in a new tab */}
+          
+          {/* -------------------- START FIX: IMAGE LINK WRAPPER -------------------- */}
           <a
-            href={p.url === '#' ? p.url : p.url} // Use a real URL if available, otherwise use # (no navigation)
-            target={p.url !== '#' ? "_blank" : "_self"} // Only open in new tab if a real URL is present
+            href={p.url === '#' ? undefined : p.url} // Use undefined for a hash URL to prevent navigation
+            target="_blank" // Always attempt to open in a new tab
             rel="noopener noreferrer"
             onClick={(e) => {
+              // Stop propagation to prevent the parent card's onClick (which opens the modal) from firing
+              e.stopPropagation(); 
+              // If the URL is just '#', prevent the default browser action (reloading the page/jumping to top)
               if (p.url === '#') {
-                e.preventDefault(); // Prevent default if no real URL
+                e.preventDefault(); 
               }
-              e.stopPropagation(); // Stop the card click from triggering the modal
             }}
-            className="block w-full h-full"
+            // Ensure the link covers the image area and is above any overlays
+            className="block w-full h-full relative z-20" 
           >
             <img
               src={p.image || "/placeholder.svg"}
               alt={p.title}
+              // Set the image object-fit and transition properties
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </a>
-          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          {/* -------------------- END FIX: IMAGE LINK WRAPPER -------------------- */}
+
+
+          {/* Overlay and button position adjusted to be *under* the clickable image link */}
+          {/* Overlay to darken the image slightly on hover */}
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
           
-          {/* View Button - Kept for visibility/hover effect, but image is now also a link */}
-          <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+          {/* View Button (Optional, as the image itself is now the main link) */}
+          <div className="absolute bottom-4 right-4 z-30 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
             <a
               href={p.url}
               target="_blank"
@@ -333,14 +345,14 @@ const ProjectModal = ({ project, onClose }) => {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 px-6 py-3 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg font-medium hover:from-accent hover:to-primary transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
+                className="px-6 py-3 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg font-medium hover:from-accent hover:to-primary transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
               >
                 <ExternalLink size={16} />
                 Visit Website
               </a>
               <button
                 onClick={onClose}
-                className="flex-1 px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-muted/50 transition-all flex items-center justify-center gap-2"
+                className="px-6 py-3 border border-border text-black bg-white cursor-pointer hover:text-white hover:border-white rounded-lg font-medium hover:bg-muted/50 transition-all flex items-center justify-center gap-2"
               >
                 Close
               </button>
