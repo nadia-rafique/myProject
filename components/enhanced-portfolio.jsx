@@ -651,312 +651,315 @@ const Navigation = () => {
 }
 
 export default function PortfolioSingleFile() {
-  const { scrollYProgress } = useScroll()
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
+  const { scrollYProgress } = useScroll()
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
 
-  const [selectedProject, setSelectedProject] = useState(null)
-  // 👇 NEW STATE for managing skill visibility
-  const [showAllSkills, setShowAllSkills] = useState(false) 
+  const [selectedProject, setSelectedProject] = useState(null)
+  // 👈 New State for managing skill visibility
+  const [showAllSkills, setShowAllSkills] = useState(false) 
 
-  const handleProjectClick = (project) => {
-    setSelectedProject(project)
-    document.body.style.overflow = 'hidden'; 
-  }
+  const handleProjectClick = (project) => {
+    setSelectedProject(project)
+    document.body.style.overflow = 'hidden';
+  }
 
-  const handleCloseModal = () => {
-    setSelectedProject(null)
-    document.body.style.overflow = 'unset'; 
-  }
+  const handleCloseModal = () => {
+    setSelectedProject(null)
+    document.body.style.overflow = 'unset';
+  }
 
-  // Function to determine which skills to display
-  const displayedSkills = showAllSkills ? DATA.skills : DATA.skills.slice(0, SKILLS_LIMIT);
-  const hasMoreSkills = DATA.skills.length > SKILLS_LIMIT;
+  // 👇 New handler for toggling skill visibility
+  const toggleSkills = () => {
+    setShowAllSkills(prev => !prev);
+  }
 
-  return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
+  // 👇 Logic to determine which skills to display
+  const skillsToDisplay = showAllSkills
+    ? DATA.skills
+    : DATA.skills.slice(0, 8);
 
-      <section id="about" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <motion.div style={{ y }} className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800" />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-800/20 to-transparent" />
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-20 left-20 w-1 h-1 bg-white rounded-full animate-pulse"></div>
-          <div className="absolute top-40 right-32 w-1 h-1 bg-white rounded-full animate-pulse delay-1000"></div>
-          <div className="absolute bottom-32 left-40 w-1 h-1 bg-white rounded-full animate-pulse delay-2000"></div>
-          <div className="absolute bottom-20 right-20 w-1 h-1 bg-white rounded-full animate-pulse delay-500"></div>
-          <div className="absolute top-60 left-1/3 w-1 h-1 bg-white rounded-full animate-pulse delay-1500"></div>
-          <div className="absolute bottom-40 right-1/3 w-1 h-1 bg-white rounded-full animate-pulse delay-700"></div>
-        </div>
+  const hiddenSkillCount = DATA.skills.length - 8;
+  const hasMoreSkills = hiddenSkillCount > 0;
 
-        <div className="relative max-w-4xl mx-auto px-6 py-20">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center space-y-6"
-          >
-            <div className="space-y-2">
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="text-cyan-400 font-medium"
-              >
-                Hello, I'm
-              </motion.p>
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-4xl md:text-6xl font-bold text-white text-balance"
-              >
-                {DATA.name}
-              </motion.h1>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="text-xl text-cyan-400 font-semibold"
-              >
-                {DATA.title}
-              </motion.p>
-            </div>
+  return (
+    <div className="min-h-screen bg-background">
+      <Navigation />
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="text-gray-300 leading-relaxed text-pretty max-w-2xl mx-auto"
-            >
-              {DATA.shortBio}
-            </motion.p>
+      <section id="about" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <motion.div style={{ y }} className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800" />
+        {/* ... (Existing background divs) ... */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-800/20 to-transparent" />
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-20 left-20 w-1 h-1 bg-white rounded-full animate-pulse"></div>
+          <div className="absolute top-40 right-32 w-1 h-1 bg-white rounded-full animate-pulse delay-1000"></div>
+          <div className="absolute bottom-32 left-40 w-1 h-1 bg-white rounded-full animate-pulse delay-2000"></div>
+          <div className="absolute bottom-20 right-20 w-1 h-1 bg-white rounded-full animate-pulse delay-500"></div>
+          <div className="absolute top-60 left-1/3 w-1 h-1 bg-white rounded-full animate-pulse delay-1500"></div>
+          <div className="absolute bottom-40 right-1/3 w-1 h-1 bg-white rounded-full animate-pulse delay-700"></div>
+        </div>
 
-            {/* *** UPDATED SKILLS CODE BLOCK *** */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="flex flex-wrap gap-2 justify-center"
-            >
-              {displayedSkills.map((skill, index) => (
-                <motion.span
-                  key={skill}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.05 * index }}
-                  className="inline-block text-xs px-3 py-1 rounded-full border border-cyan-400/30 bg-cyan-400/10 text-cyan-400 transition-all duration-300 hover:scale-105"
-                >
-                  {skill}
-                </motion.span>
-              ))}
+        <div className="relative max-w-4xl mx-auto px-6 py-20">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center space-y-6"
+          >
+            <div className="space-y-2">
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="text-cyan-400 font-medium"
+              >
+                Hello, I'm
+              </motion.p>
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-4xl md:text-6xl font-bold text-white text-balance"
+              >
+                {DATA.name}
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-xl text-cyan-400 font-semibold"
+              >
+                {DATA.title}
+              </motion.p>
+            </div>
 
-              {/* Show More/Less Toggle Button */}
-              {hasMoreSkills && (
-                <button 
-                  onClick={() => setShowAllSkills(!showAllSkills)}
-                  className="inline-flex items-center text-xs px-3 py-1 rounded-full border border-gray-600 bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 transition-all duration-300 hover:scale-105 cursor-pointer"
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="text-gray-300 leading-relaxed text-pretty max-w-2xl mx-auto"
+            >
+              {DATA.shortBio}
+            </motion.p>
+
+            {/* 👇 UPDATED SKILLS SECTION 👇 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="flex flex-wrap gap-2 justify-center"
+            >
+              {/* Map over the skillsToDisplay array */}
+              {skillsToDisplay.map((skill) => (
+                <span
+                  key={skill}
+                  className="inline-block text-xs px-3 py-1 rounded-full border border-cyan-400/30 bg-cyan-400/10 text-cyan-400 hover:bg-cyan-400/20 transition-all duration-300 hover:scale-105"
                 >
-                  {showAllSkills ? (
-                    <>
-                      <X size={12} className="mr-1" /> Show Less
-                    </>
-                  ) : (
-                    <>
-                      +{DATA.skills.length - SKILLS_LIMIT} more
-                    </>
-                  )}
-                </button>
-              )}
-            </motion.div>
-            {/* *** END OF UPDATED SKILLS CODE BLOCK *** */}
+                  {skill}
+                </span>
+              ))}
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7 }}
-              className="flex items-center gap-4 justify-center"
-            >
-              <button
-                onClick={() => {
-                  const element = document.getElementById("projects")
-                  if (element) {
-                    element.scrollIntoView({ behavior: "smooth", block: "start" })
-                  }
-                }}
-                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-medium hover:from-cyan-400 hover:to-blue-400 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-cyan-500/25"
-              >
-                View My Work
-              </button>
-              <a
-                href="/Nadia Rafique (Senior FE Dev).pdf"
-                download="Nadia Rafique (Senior FE Dev).pdf"
-                className="px-6 py-3 border border-gray-600 text-white rounded-lg font-medium hover:bg-gray-800/50 transition-all flex items-center gap-2 hover:scale-105"
-                target="_blank"
-              >
-                <Download size={16} />
-                Download Resume
-              </a>
-            </motion.div>
+              {/* Conditional 'more' or 'less' button */}
+              {hasMoreSkills && (
+                <span
+                  onClick={toggleSkills} // 👈 Add click handler
+                  className="inline-block text-xs px-3 py-1 rounded-full border border-gray-600 bg-gray-800/50 text-gray-300 cursor-pointer hover:bg-gray-800/80 transition-all duration-300"
+                >
+                  {/* Conditional Text */}
+                  {showAllSkills ? "Show Less" : `+${hiddenSkillCount} more`}
+                </span>
+              )}
+            </motion.div>
+            {/* 👆 END UPDATED SKILLS SECTION 👆 */}
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-              className="flex items-center gap-4 pt-4 justify-center"
-            >
-              <a
-                href="https://www.linkedin.com/in/nadia-rafique-46a9661b7/"
-                className="text-gray-400 hover:text-cyan-400 transition-colors hover:scale-110 transform duration-200" target="_blank"
-              >
-                <Linkedin size={20} />
-              </a>
-              <a
-                href="mailto:nadiarafique1441@gmail.com"
-                className="text-gray-400 hover:text-cyan-400 transition-colors hover:scale-110 transform duration-200" target="_blank"
-              >
-                <Mail size={20} />
-              </a>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
 
-      <section id="projects" className="py-20 px-6 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
-        <div className="max-w-6xl mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold gradient-text mb-4 text-balance">Selected Projects</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-pretty">
-              A showcase of my recent work in frontend development, featuring modern web applications and user
-              interfaces.
-            </p>
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+              className="flex items-center gap-4 justify-center"
+            >
+              <button
+                onClick={() => {
+                  const element = document.getElementById("projects")
+                  if (element) {
+                    element.scrollIntoView({ behavior: "smooth", block: "start" })
+                  }
+                }}
+                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-medium hover:from-cyan-400 hover:to-blue-400 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-cyan-500/25"
+              >
+                View My Work
+              </button>
+              <a
+                href="/Nadia Rafique (Senior FE Dev).pdf"
+                download="Nadia Rafique (Senior FE Dev).pdf"
+                className="px-6 py-3 border border-gray-600 text-white rounded-lg font-medium hover:bg-gray-800/50 transition-all flex items-center gap-2 hover:scale-105"
+                target="_blank"
+              >
+                <Download size={16} />
+                Download Resume
+              </a>
+            </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {DATA.projects.map((project, i) => (
-              <ProjectCard key={project.title} p={project} i={i} onCardClick={handleProjectClick} />
-            ))}
-          </div>
-        </div>
-      </section>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              className="flex items-center gap-4 pt-4 justify-center"
+            >
+              <a
+                href="https://www.linkedin.com/in/nadia-rafique-46a9661b7/"
+                className="text-gray-400 hover:text-cyan-400 transition-colors hover:scale-110 transform duration-200" target="_blank"
+              >
+                <Linkedin size={20} />
+              </a>
+              <a
+                href="mailto:nadiarafique1441@gmail.com"
+                className="text-gray-400 hover:text-cyan-400 transition-colors hover:scale-110 transform duration-200" target="_blank"
+              >
+                <Mail size={20} />
+              </a>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
 
-      <section
-        id="experience"
-        className="py-20 px-6 bg-gradient-to-r from-secondary/10 via-muted/10 to-secondary/10 relative"
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-primary/5 animate-pulse" />
-        <div className="max-w-6xl mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold gradient-text mb-4 text-balance">Experience</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-pretty">
-              My professional journey in frontend development and web technologies.
-            </p>
-          </motion.div>
+      {/* ... (The rest of your component sections: projects, experience, contact, footer) ... */}
+      <section id="projects" className="py-20 px-6 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
+        <div className="max-w-6xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold gradient-text mb-4 text-balance">Selected Projects</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto text-pretty">
+              A showcase of my recent work in frontend development, featuring modern web applications and user
+              interfaces.
+            </p>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {DATA.experiences.map((experience, i) => (
-              <ExperienceCard key={i} item={experience} index={i} />
-            ))}
-          </div>
-        </div>
-      </section>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {DATA.projects.map((project, i) => (
+              <ProjectCard key={project.title} p={project} i={i} onCardClick={handleProjectClick} />
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <section id="contact" className="py-20 px-6 relative">
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/5 via-transparent to-accent/5" />
-        <div className="max-w-4xl mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold gradient-text mb-4 text-balance">Let's Work Together</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-pretty">
-              I'm available for frontend development roles and freelance projects. Let's discuss how we can bring your
-              ideas to life.
-            </p>
-          </motion.div>
+      <section
+        id="experience"
+        className="py-20 px-6 bg-gradient-to-r from-secondary/10 via-muted/10 to-secondary/10 relative"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-primary/5 animate-pulse" />
+        <div className="max-w-6xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold gradient-text mb-4 text-balance">Experience</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto text-pretty">
+              My professional journey in frontend development and web technologies.
+            </p>
+          </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="space-y-6"
-            >
-              <div className="glass-effect p-6 rounded-xl relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 opacity-50" />
-                <div className="relative z-10">
-                  <h3 className="font-semibold text-foreground mb-4">Quick Stats</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold gradient-text">{DATA.projects.length}</div>
-                      <div className="text-sm text-muted-foreground">Projects</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold gradient-text">{new Date().getFullYear() - 2021}+</div>
-                      <div className="text-sm text-muted-foreground">Years</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold gradient-text">{DATA.skills.length}</div>
-                      <div className="text-sm text-muted-foreground">Skills</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold gradient-text">100%</div>
-                      <div className="text-sm text-muted-foreground">Remote</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {DATA.experiences.map((experience, i) => (
+              <ExperienceCard key={i} item={experience} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
 
-              <div className="glass-effect p-6 rounded-xl relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-primary/10 opacity-50" />
-                <div className="relative z-10">
-                  <h3 className="font-semibold text-foreground mb-4">Contact Info</h3>
-                  <div className="space-y-3">
-                    <a
-                      href={`mailto:${DATA.contactEmail}`}
-                      className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      <Mail size={18} />
-                      {DATA.contactEmail}
-                    </a>
-                    <div className="flex items-center gap-3 text-muted-foreground">
-                      <div className="w-[18px] h-[18px] flex items-center justify-center">📍</div>
-                      {DATA.location}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+      <section id="contact" className="py-20 px-6 relative">
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/5 via-transparent to-accent/5" />
+        <div className="max-w-4xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold gradient-text mb-4 text-balance">Let's Work Together</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto text-pretty">
+              I'm available for frontend development roles and freelance projects. Let's discuss how we can bring your
+              ideas to life.
+            </p>
+          </motion.div>
 
-            <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <ContactForm />
-            </motion.div>
-          </div>
-        </div>
-      </section>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="space-y-6"
+            >
+              <div className="glass-effect p-6 rounded-xl relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 opacity-50" />
+                <div className="relative z-10">
+                  <h3 className="font-semibold text-foreground mb-4">Quick Stats</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold gradient-text">{DATA.projects.length}</div>
+                      <div className="text-sm text-muted-foreground">Projects</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold gradient-text">{new Date().getFullYear() - 2021}+</div>
+                      <div className="text-sm text-muted-foreground">Years</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold gradient-text">{DATA.skills.length}</div>
+                      <div className="text-sm text-muted-foreground">Skills</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold gradient-text">100%</div>
+                      <div className="text-sm text-muted-foreground">Remote</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-      <footer className="py-8 px-6 border-t border-border relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5" />
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} {DATA.name}. Built with React, Next.js & Tailwind CSS.
-          </p>
-        </div>
-      </footer>
-      
-      {selectedProject && <ProjectModal project={selectedProject} onClose={handleCloseModal} />}
-    </div>
-  )
+              <div className="glass-effect p-6 rounded-xl relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-primary/10 opacity-50" />
+                <div className="relative z-10">
+                  <h3 className="font-semibold text-foreground mb-4">Contact Info</h3>
+                  <div className="space-y-3">
+                    <a
+                      href={`mailto:${DATA.contactEmail}`}
+                      className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      <Mail size={18} />
+                      {DATA.contactEmail}
+                    </a>
+                    <div className="flex items-center gap-3 text-muted-foreground">
+                      <div className="w-[18px] h-[18px] flex items-center justify-center">📍</div>
+                      {DATA.location}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+              <ContactForm />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <footer className="py-8 px-6 border-t border-border relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5" />
+        <div className="max-w-6xl mx-auto text-center relative z-10">
+          <p className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} {DATA.name}. Built with React, Next.js & Tailwind CSS.
+          </p>
+        </div>
+      </footer>
+      
+      {selectedProject && <ProjectModal project={selectedProject} onClose={handleCloseModal} />}
+    </div>
+  )
 }
