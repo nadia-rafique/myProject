@@ -32,23 +32,23 @@ const DATA = {
   experiences: [
     {
       role: "Frontend Developer",
-      company: "Prismecs",
+      company: "Prismecs (Lahore)",
       date: "June 2024 – Present",
       details:
         "Develop responsive, user-centric interfaces with HTML5, CSS3, JavaScript, Bootstrap, and Tailwind CSS. Ensure performance, accessibility, and cross-browser compatibility. Collaborate with UX/UI designers and backend developers to integrate Laravel-based apps and REST APIs.",
     },
     {
       role: "Frontend Developer",
-      company: "Codility Solutions",
+      company: "Codility Solutions (Lahore)",
       date: "2022 – Feb 2024",
       details:
         "Designed and implemented responsive, mobile-first interfaces using HTML5, CSS3, Tailwind, Bootstrap, and Material UI. Built scalable apps with Laravel, React.js, Vue.js, and Next.js. Optimised performance and accessibility, collaborated closely with UX/UI teams.",
     },
     {
       role: "Web Instructor",
-      company: "Al-Khwarizmi Institute of Computer Science (KICS)",
+      company: "Al-Khwarizmi Institute of Computer Science (UET, Lahore)",
       date: "2021 – 2022",
-      details:
+      details: 
         "Conducted training in frontend and backend technologies (HTML, CSS, Bootstrap, JavaScript, PHP, MySQL). Delivered lessons on WordPress development and guided students in building responsive, dynamic websites.",
     },
   ],
@@ -164,7 +164,7 @@ const ExperienceCard = ({ item, index }) => (
       <div className="flex items-start justify-between mb-3">
         <div>
           <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">{item.role}</h4>
-          <div className="text-sm text-muted-foreground">{item.company}</div>
+          <div className="text-sm text-white">{item.company}</div>
         </div>
         <div className="text-xs text-muted-foreground bg-gradient-to-r from-secondary/50 to-muted/50 px-2 py-1 rounded">
           {item.date}
@@ -375,54 +375,101 @@ const ContactForm = () => {
     name: "",
     email: "",
     message: "",
-  })
-  const [status, setStatus] = useState("idle")
+  });
+  const [status, setStatus] = useState("idle");
+  const [errors, setErrors] = useState({}); // New state for validation errors
+
+  // Email regex for basic client-side check
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const validateField = (name, value) => {
+    let error = "";
+    if (!value.trim()) {
+      error = `${name.charAt(0).toUpperCase() + name.slice(1)} is required.`;
+    } else if (name === "email" && !emailRegex.test(value)) {
+      error = "Please enter a valid email address.";
+    } else if (name === "name" && value.trim().length < 2) {
+      error = "Name must be at least 2 characters.";
+    }
+    
+    setErrors(prevErrors => ({
+      ...prevErrors,
+      [name]: error,
+    }));
+    return error.length === 0;
+  };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
-  }
+    const { name, value } = e.target;
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+    
+    // Validate the field immediately on change
+    validateField(name, value);
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    let isValid = true;
+
+    // Validate Name
+    if (!validateField('name', formData.name)) isValid = false;
+    
+    // Validate Email
+    if (!validateField('email', formData.email)) isValid = false;
+    
+    // Validate Message (only checks for required, min length 10)
+    if (!formData.message.trim() || formData.message.trim().length < 10) {
+      newErrors.message = "Message must be at least 10 characters.";
+      isValid = false;
+    } else {
+      newErrors.message = "";
+    }
+
+    setErrors(prevErrors => ({ ...prevErrors, ...newErrors }));
+    return isValid;
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setStatus("sending")
+    e.preventDefault();
+
+    if (!validateForm()) {
+      setStatus("error-validation");
+      // Temporarily show the validation error status
+      setTimeout(() => setStatus("idle"), 5000); 
+      return;
+    }
+
+    setStatus("sending");
 
     try {
-      // NOTE: This is a placeholder for a real API endpoint
-      // const response = await fetch("/api/contact", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(formData),
-      // })
-      // const result = await response.json()
-      
-      // Simulating API call success/failure
+      // ... (Your existing placeholder logic) ...
       await new Promise(resolve => setTimeout(resolve, 1000));
       const response = { ok: true }; 
 
       if (response.ok) {
-        setStatus("success")
-        setFormData({ name: "", email: "", message: "" })
-        setTimeout(() => setStatus("idle"), 5000)
+        setStatus("success");
+        setFormData({ name: "", email: "", message: "" });
+        setErrors({}); // Clear errors on success
+        setTimeout(() => setStatus("idle"), 5000);
       } else {
-        setStatus("error")
-        setTimeout(() => setStatus("idle"), 5000)
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 5000);
       }
     } catch (error) {
-      console.error("Error sending message:", error)
-      setStatus("error")
-      setTimeout(() => setStatus("idle"), 5000)
+      console.error("Error sending message:", error);
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 5000);
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 glass-effect p-6 rounded-xl relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 animate-rainbow-flow opacity-50 h-full" />
       <div className="relative z-10 space-y-4">
+        {/* Name Field */}
         <div>
           <label className="text-sm font-medium text-foreground">Name</label>
           <input
@@ -431,10 +478,19 @@ const ContactForm = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full mt-2 bg-input/80 backdrop-blur-sm border border-border rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+            className={`w-full mt-2 bg-input/80 backdrop-blur-sm border rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 transition-all ${
+              errors.name ? 'border-red-500 focus:ring-red-500/50' : 'border-border focus:ring-primary/50 focus:border-primary'
+            }`}
             placeholder="Your name"
           />
+          {errors.name && (
+            <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+              {errors.name}
+            </p>
+          )}
         </div>
+        
+        {/* Email Field */}
         <div>
           <label className="text-sm font-medium text-foreground">Email</label>
           <input
@@ -443,10 +499,19 @@ const ContactForm = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full mt-2 bg-input/80 backdrop-blur-sm border border-border rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+            className={`w-full mt-2 bg-input/80 backdrop-blur-sm border rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 transition-all ${
+              errors.email ? 'border-red-500 focus:ring-red-500/50' : 'border-border focus:ring-primary/50 focus:border-primary'
+            }`}
             placeholder="you@email.com"
           />
+          {errors.email && (
+            <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+              {errors.email}
+            </p>
+          )}
         </div>
+        
+        {/* Message Field */}
         <div>
           <label className="text-sm font-medium text-foreground">Message</label>
           <textarea
@@ -454,11 +519,20 @@ const ContactForm = () => {
             value={formData.message}
             onChange={handleChange}
             required
-            className="w-full mt-2 bg-input/80 backdrop-blur-sm border border-border rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none"
+            className={`w-full mt-2 bg-input/80 backdrop-blur-sm border rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 transition-all resize-none ${
+              errors.message ? 'border-red-500 focus:ring-red-500/50' : 'border-border focus:ring-primary/50 focus:border-primary'
+            }`}
             rows={4}
             placeholder="Tell me about your project..."
           />
+           {errors.message && (
+            <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+              {errors.message}
+            </p>
+          )}
         </div>
+        
+        {/* Submit Button */}
         <div>
           <button
             type="submit"
@@ -479,6 +553,7 @@ const ContactForm = () => {
           </button>
         </div>
 
+        {/* Status Messages */}
         {status === "success" && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -500,10 +575,20 @@ const ContactForm = () => {
             Failed to send message. Please email me directly at nadiarafique1441@gmail.com
           </motion.div>
         )}
+         {status === "error-validation" && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-2 text-red-400 text-sm bg-red-400/10 p-3 rounded-lg border border-red-400/30"
+          >
+            <Mail size={16} />
+            Please correct the errors in the form before submitting.
+          </motion.div>
+        )}
       </div>
     </form>
-  )
-}
+  );
+};
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false)
