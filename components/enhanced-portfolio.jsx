@@ -59,7 +59,7 @@ const DATA = {
       description:
         "Led frontend development of Prismecs' corporate site with responsive, modern UI, reusable components, and SEO optimisation.",
       url: "https://prismecs.com/",
-      image: "/modern-corporate-website-with-blue-theme.jpg",
+      image: "/modern-corporate-website-with-blue-theme.png",
     },
     {
       title: "eIndustrify Marketplace",
@@ -67,7 +67,7 @@ const DATA = {
       description:
         "Developed full frontend for eIndustrify's B2B industrial marketplace. Built product catalog, category filtering, quick order forms, and improved UX for mobile/desktop.",
       url: "https://eindustrify.com/",
-      image: "/industrial-marketplace-website-with-product-catalo.jpg",
+      image: "/industrial-marketplace-website-with-product-catalo.png",
     },
     {
       title: "Jamiah School Management System",
