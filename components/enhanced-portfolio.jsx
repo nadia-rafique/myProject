@@ -377,19 +377,27 @@ const ContactForm = () => {
     message: "",
   });
   const [status, setStatus] = useState("idle");
-  const [errors, setErrors] = useState({}); // New state for validation errors
+  const [errors, setErrors] = useState({});
 
-  // Email regex for basic client-side check
+  // Regex for basic client-side checks
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const numberRegex = /\d/; // Checks for any digit (0-9)
 
   const validateField = (name, value) => {
     let error = "";
+    
     if (!value.trim()) {
       error = `${name.charAt(0).toUpperCase() + name.slice(1)} is required.`;
     } else if (name === "email" && !emailRegex.test(value)) {
       error = "Please enter a valid email address.";
-    } else if (name === "name" && value.trim().length < 2) {
-      error = "Name must be at least 2 characters.";
+    } else if (name === "name") {
+      if (value.trim().length < 2) {
+        error = "Name must be at least 2 characters.";
+      } else if (numberRegex.test(value)) { // ⬅️ NEW CHECK FOR NUMBERS
+        error = "Name cannot contain numbers.";
+      }
+    } else if (name === "message" && value.trim().length < 10) {
+        error = "Message must be at least 10 characters.";
     }
     
     setErrors(prevErrors => ({
@@ -411,24 +419,19 @@ const ContactForm = () => {
   };
 
   const validateForm = () => {
-    const newErrors = {};
     let isValid = true;
 
-    // Validate Name
+    // Run validation on all fields for final check
     if (!validateField('name', formData.name)) isValid = false;
-    
-    // Validate Email
     if (!validateField('email', formData.email)) isValid = false;
-    
-    // Validate Message (only checks for required, min length 10)
+    // Check message separately as it needs a minimum length of 10
     if (!formData.message.trim() || formData.message.trim().length < 10) {
-      newErrors.message = "Message must be at least 10 characters.";
-      isValid = false;
+        setErrors(prevErrors => ({ ...prevErrors, message: "Message must be at least 10 characters." }));
+        isValid = false;
     } else {
-      newErrors.message = "";
+        setErrors(prevErrors => ({ ...prevErrors, message: "" }));
     }
 
-    setErrors(prevErrors => ({ ...prevErrors, ...newErrors }));
     return isValid;
   };
 
@@ -437,7 +440,6 @@ const ContactForm = () => {
 
     if (!validateForm()) {
       setStatus("error-validation");
-      // Temporarily show the validation error status
       setTimeout(() => setStatus("idle"), 5000); 
       return;
     }
@@ -445,14 +447,14 @@ const ContactForm = () => {
     setStatus("sending");
 
     try {
-      // ... (Your existing placeholder logic) ...
+      // Simulating API call success/failure
       await new Promise(resolve => setTimeout(resolve, 1000));
       const response = { ok: true }; 
 
       if (response.ok) {
         setStatus("success");
         setFormData({ name: "", email: "", message: "" });
-        setErrors({}); // Clear errors on success
+        setErrors({}); 
         setTimeout(() => setStatus("idle"), 5000);
       } else {
         setStatus("error");
