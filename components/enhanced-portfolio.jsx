@@ -129,7 +129,6 @@ const DATA = {
   contactEmail: "nadiarafique1441@gmail.com",
 }
 
-// Updated Badge component to handle a click for "show more" functionality
 const Badge = ({ children, variant = "default", onClick }) => {
   const variants = {
     default:
@@ -176,7 +175,7 @@ const ExperienceCard = ({ item, index }) => (
   </motion.div>
 )
 
-// Updated ProjectCard to handle click for modal and "show more" badge state
+// Updated ProjectCard: Image is now a clickable link to the project URL
 const ProjectCard = ({ p, i, onCardClick }) => {
   const [showAllTags, setShowAllTags] = useState(false)
   const tagsToShow = showAllTags ? p.tags : p.tags.slice(0, 3)
@@ -191,18 +190,34 @@ const ProjectCard = ({ p, i, onCardClick }) => {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.1 + i * 0.05, duration: 0.4 }}
-      onClick={() => onCardClick(p)} // Add onClick to open modal
+      onClick={() => onCardClick(p)} // Click the card body to open modal
       className="group block rounded-xl overflow-hidden glass-effect hover-lift relative cursor-pointer" // Added cursor-pointer
     >
       <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-0 group-hover:opacity-20 transition-opacity duration-500 animate-rainbow-flow" />
       <div className="relative z-10">
         <div className="relative h-48 w-full bg-gradient-to-br from-secondary/20 to-muted/20 overflow-hidden">
-          <img
-            src={p.image || "/placeholder.svg"}
-            alt={p.title}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-          />
+          {/* IMAGE LINK WRAPPER: Now the image is clickable to open the URL in a new tab */}
+          <a
+            href={p.url === '#' ? p.url : p.url} // Use a real URL if available, otherwise use # (no navigation)
+            target={p.url !== '#' ? "_blank" : "_self"} // Only open in new tab if a real URL is present
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              if (p.url === '#') {
+                e.preventDefault(); // Prevent default if no real URL
+              }
+              e.stopPropagation(); // Stop the card click from triggering the modal
+            }}
+            className="block w-full h-full"
+          >
+            <img
+              src={p.image || "/placeholder.svg"}
+              alt={p.title}
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+          </a>
           <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          
+          {/* View Button - Kept for visibility/hover effect, but image is now also a link */}
           <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
             <a
               href={p.url}
@@ -291,7 +306,7 @@ const ProjectModal = ({ project, onClose }) => {
         <div className="relative">
           {/* Image Section */}
           <div className="h-64 sm:h-80 w-full bg-gradient-to-br from-secondary/20 to-muted/20 overflow-hidden">
-            <img
+             <img
               src={project.image || "/placeholder.svg"}
               alt={project.title}
               className="w-full h-full object-cover"
@@ -390,7 +405,7 @@ const ContactForm = () => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4 glass-effect p-6 rounded-xl relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 animate-rainbow-flow opacity-50" />
-      <div className="relative z-10 space-y-4"> {/* Added space-y-4 here for consistency with form */}
+      <div className="relative z-10 space-y-4">
         <div>
           <label className="text-sm font-medium text-foreground">Name</label>
           <input
