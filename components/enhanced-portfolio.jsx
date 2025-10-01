@@ -129,6 +129,8 @@ const DATA = {
   contactEmail: "nadiarafique1441@gmail.com",
 }
 
+const SKILLS_LIMIT = 8;
+
 const Badge = ({ children, variant = "default", onClick }) => {
   const variants = {
     default:
@@ -653,16 +655,31 @@ export default function PortfolioSingleFile() {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
 
   const [selectedProject, setSelectedProject] = useState(null)
+  // 👈 New State for managing skill visibility
+  const [showAllSkills, setShowAllSkills] = useState(false) 
 
   const handleProjectClick = (project) => {
     setSelectedProject(project)
-    document.body.style.overflow = 'hidden'; 
+    document.body.style.overflow = 'hidden';
   }
 
   const handleCloseModal = () => {
     setSelectedProject(null)
-    document.body.style.overflow = 'unset'; 
+    document.body.style.overflow = 'unset';
   }
+
+  // 👇 New handler for toggling skill visibility
+  const toggleSkills = () => {
+    setShowAllSkills(prev => !prev);
+  }
+
+  // 👇 Logic to determine which skills to display
+  const skillsToDisplay = showAllSkills
+    ? DATA.skills
+    : DATA.skills.slice(0, 8);
+
+  const hiddenSkillCount = DATA.skills.length - 8;
+  const hasMoreSkills = hiddenSkillCount > 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -670,6 +687,7 @@ export default function PortfolioSingleFile() {
 
       <section id="about" className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <motion.div style={{ y }} className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800" />
+        {/* ... (Existing background divs) ... */}
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-800/20 to-transparent" />
         <div className="absolute inset-0 opacity-30">
           <div className="absolute top-20 left-20 w-1 h-1 bg-white rounded-full animate-pulse"></div>
@@ -723,13 +741,15 @@ export default function PortfolioSingleFile() {
               {DATA.shortBio}
             </motion.p>
 
+            {/* 👇 UPDATED SKILLS SECTION 👇 */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
               className="flex flex-wrap gap-2 justify-center"
             >
-              {DATA.skills.slice(0, 8).map((skill) => (
+              {/* Map over the skillsToDisplay array */}
+              {skillsToDisplay.map((skill) => (
                 <span
                   key={skill}
                   className="inline-block text-xs px-3 py-1 rounded-full border border-cyan-400/30 bg-cyan-400/10 text-cyan-400 hover:bg-cyan-400/20 transition-all duration-300 hover:scale-105"
@@ -737,10 +757,20 @@ export default function PortfolioSingleFile() {
                   {skill}
                 </span>
               ))}
-              <span className="inline-block text-xs px-3 py-1 rounded-full border border-gray-600 bg-gray-800/50 text-gray-300">
-                +{DATA.skills.length - 8} more
-              </span>
+
+              {/* Conditional 'more' or 'less' button */}
+              {hasMoreSkills && (
+                <span
+                  onClick={toggleSkills} // 👈 Add click handler
+                  className="inline-block text-xs px-3 py-1 rounded-full border border-gray-600 bg-gray-800/50 text-gray-300 cursor-pointer hover:bg-gray-800/80 transition-all duration-300"
+                >
+                  {/* Conditional Text */}
+                  {showAllSkills ? "Show Less" : `+${hiddenSkillCount} more`}
+                </span>
+              )}
             </motion.div>
+            {/* 👆 END UPDATED SKILLS SECTION 👆 */}
+
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -793,6 +823,7 @@ export default function PortfolioSingleFile() {
         </div>
       </section>
 
+      {/* ... (The rest of your component sections: projects, experience, contact, footer) ... */}
       <section id="projects" className="py-20 px-6 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
         <div className="max-w-6xl mx-auto relative z-10">
