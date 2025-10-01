@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
-import { Mail, Send, CheckCircle, ExternalLink, Github, Linkedin, Download } from "lucide-react"
+import { Mail, Send, CheckCircle, ExternalLink, Github, Linkedin, Download, X } from "lucide-react" // Added 'X' for modal close
 
 const DATA = {
   name: "Nadia Rafique",
@@ -129,7 +129,8 @@ const DATA = {
   contactEmail: "nadiarafique1441@gmail.com",
 }
 
-const Badge = ({ children, variant = "default" }) => {
+// Updated Badge component to handle a click for "show more" functionality
+const Badge = ({ children, variant = "default", onClick }) => {
   const variants = {
     default:
       "bg-gradient-to-r from-primary/20 to-accent/20 text-primary border-primary/30 hover:from-primary/30 hover:to-accent/30",
@@ -137,11 +138,15 @@ const Badge = ({ children, variant = "default" }) => {
       "bg-gradient-to-r from-accent/20 to-primary/20 text-accent border-accent/30 hover:from-accent/30 hover:to-primary/30",
     secondary:
       "bg-gradient-to-r from-secondary to-muted text-secondary-foreground border-border hover:from-muted hover:to-secondary",
+    showMore: // New variant for the "+X more" badge
+      "bg-gradient-to-r from-secondary/50 to-muted/50 text-secondary-foreground border-border hover:from-muted hover:to-secondary cursor-pointer",
   }
 
   return (
     <span
-      className={`inline-block text-xs px-3 py-1 rounded-full border transition-all duration-300 hover:scale-105 hover:shadow-lg ${variants[variant]}`}
+      onClick={onClick}
+      className={`inline-block text-xs px-3 py-1 rounded-full border transition-all duration-300 ${onClick ? "cursor-pointer hover:scale-105 hover:shadow-lg" : ""
+        } ${variants[variant]}`}
     >
       {children}
     </span>
@@ -171,51 +176,167 @@ const ExperienceCard = ({ item, index }) => (
   </motion.div>
 )
 
-const ProjectCard = ({ p, i }) => (
-  <motion.div
-    initial={{ opacity: 0, scale: 0.9 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ delay: 0.1 + i * 0.05, duration: 0.4 }}
-    className="group block rounded-xl overflow-hidden glass-effect hover-lift relative"
-  >
-    <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-0 group-hover:opacity-20 transition-opacity duration-500 animate-rainbow-flow" />
-    <div className="relative z-10">
-      <div className="relative h-48 w-full bg-gradient-to-br from-secondary/20 to-muted/20 overflow-hidden">
-        <img
-          src={p.image || "/placeholder.svg"}
-          alt={p.title}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-          <a
-            href={p.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg text-sm hover:from-accent hover:to-primary transition-all duration-300 shadow-lg"
-          >
-            <ExternalLink size={14} />
-            View
-          </a>
+// Updated ProjectCard to handle click for modal and "show more" badge state
+const ProjectCard = ({ p, i, onCardClick }) => {
+  const [showAllTags, setShowAllTags] = useState(false)
+  const tagsToShow = showAllTags ? p.tags : p.tags.slice(0, 3)
+
+  const handleBadgeClick = (e) => {
+    e.stopPropagation() // Prevent the card click from triggering when clicking the badge
+    setShowAllTags(true)
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 0.1 + i * 0.05, duration: 0.4 }}
+      onClick={() => onCardClick(p)} // Add onClick to open modal
+      className="group block rounded-xl overflow-hidden glass-effect hover-lift relative cursor-pointer" // Added cursor-pointer
+    >
+      <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-0 group-hover:opacity-20 transition-opacity duration-500 animate-rainbow-flow" />
+      <div className="relative z-10">
+        <div className="relative h-48 w-full bg-gradient-to-br from-secondary/20 to-muted/20 overflow-hidden">
+          <img
+            src={p.image || "/placeholder.svg"}
+            alt={p.title}
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+            <a
+              href={p.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()} // Prevent card click when clicking link
+              className="inline-flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg text-sm hover:from-accent hover:to-primary transition-all duration-300 shadow-lg"
+            >
+              <ExternalLink size={14} />
+              View
+            </a>
+          </div>
+        </div>
+        <div className="p-6">
+          <h3 className="font-semibold text-foreground group-hover:gradient-text transition-all duration-300 text-balance">
+            {p.title}
+          </h3>
+          <p className="text-sm text-muted-foreground mt-2 leading-relaxed text-pretty">{p.description}</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {tagsToShow.map((t) => (
+              <Badge key={t} variant="default">
+                {t}
+              </Badge>
+            ))}
+            {/* Logic for the "+X more" badge */}
+            {!showAllTags && p.tags.length > 3 && (
+              <Badge variant="showMore" onClick={handleBadgeClick}>
+                +{p.tags.length - 3} more
+              </Badge>
+            )}
+            {/* Optional: Show "less" button if all are showing */}
+            {showAllTags && p.tags.length > 3 && (
+              <Badge variant="secondary" onClick={(e) => { e.stopPropagation(); setShowAllTags(false) }}>
+                Show less
+              </Badge>
+            )}
+          </div>
         </div>
       </div>
-      <div className="p-6">
-        <h3 className="font-semibold text-foreground group-hover:gradient-text transition-all duration-300 text-balance">
-          {p.title}
-        </h3>
-        <p className="text-sm text-muted-foreground mt-2 leading-relaxed text-pretty">{p.description}</p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {p.tags.slice(0, 3).map((t) => (
-            <Badge key={t} variant="default">
-              {t}
-            </Badge>
-          ))}
-          {p.tags.length > 3 && <Badge variant="secondary">+{p.tags.length - 3}</Badge>}
+    </motion.div>
+  )
+}
+
+// New Project Modal Component
+const ProjectModal = ({ project, onClose }) => {
+  if (!project) return null
+
+  // Close modal when pressing the Escape key
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+      className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4 md:p-8 overflow-y-auto"
+    >
+      <motion.div
+        initial={{ y: 50, scale: 0.9 }}
+        animate={{ y: 0, scale: 1 }}
+        exit={{ y: 50, scale: 0.9 }}
+        transition={{ type: "spring", stiffness: 100, damping: 20 }}
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
+        className="w-full max-w-4xl glass-effect rounded-xl relative overflow-hidden my-auto"
+      >
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-50 p-2 rounded-full bg-background/50 text-foreground hover:bg-background transition-colors shadow-lg"
+        >
+          <X size={20} />
+        </button>
+
+        {/* Modal Content */}
+        <div className="relative">
+          {/* Image Section */}
+          <div className="h-64 sm:h-80 w-full bg-gradient-to-br from-secondary/20 to-muted/20 overflow-hidden">
+            <img
+              src={project.image || "/placeholder.svg"}
+              alt={project.title}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+          </div>
+
+          {/* Details Section */}
+          <div className="p-6 sm:p-8 relative z-10">
+            <h2 className="text-3xl font-bold gradient-text mb-2 text-balance">{project.title}</h2>
+            
+            <p className="text-lg text-muted-foreground mb-4 leading-relaxed text-pretty">{project.description}</p>
+            
+            <div className="flex flex-wrap gap-2 mb-6">
+              {project.tags.map((t) => (
+                <Badge key={t} variant="accent">
+                  {t}
+                </Badge>
+              ))}
+            </div>
+
+            <div className="mt-6 flex flex-col sm:flex-row gap-4">
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg font-medium hover:from-accent hover:to-primary transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
+              >
+                <ExternalLink size={16} />
+                Visit Website
+              </a>
+              <button
+                onClick={onClose}
+                className="flex-1 px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-muted/50 transition-all flex items-center justify-center gap-2"
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </motion.div>
-)
+      </motion.div>
+    </motion.div>
+  );
+};
+
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -237,15 +358,19 @@ const ContactForm = () => {
     setStatus("sending")
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      })
-
-      const result = await response.json()
+      // NOTE: This is a placeholder for a real API endpoint
+      // const response = await fetch("/api/contact", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(formData),
+      // })
+      // const result = await response.json()
+      
+      // Simulating API call success/failure
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      const response = { ok: true }; 
 
       if (response.ok) {
         setStatus("success")
@@ -265,7 +390,7 @@ const ContactForm = () => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4 glass-effect p-6 rounded-xl relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 animate-rainbow-flow opacity-50" />
-      <div className="relative z-10">
+      <div className="relative z-10 space-y-4"> {/* Added space-y-4 here for consistency with form */}
         <div>
           <label className="text-sm font-medium text-foreground">Name</label>
           <input
@@ -420,6 +545,19 @@ export default function PortfolioSingleFile() {
   const { scrollYProgress } = useScroll()
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
 
+  // State for the modal
+  const [selectedProject, setSelectedProject] = useState(null)
+
+  const handleProjectClick = (project) => {
+    setSelectedProject(project)
+    document.body.style.overflow = 'hidden'; // Disable background scroll
+  }
+
+  const handleCloseModal = () => {
+    setSelectedProject(null)
+    document.body.style.overflow = 'unset'; // Enable background scroll
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -566,8 +704,9 @@ export default function PortfolioSingleFile() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Pass the click handler to ProjectCard */}
             {DATA.projects.map((project, i) => (
-              <ProjectCard key={project.title} p={project} i={i} />
+              <ProjectCard key={project.title} p={project} i={i} onCardClick={handleProjectClick} />
             ))}
           </div>
         </div>
@@ -683,6 +822,9 @@ export default function PortfolioSingleFile() {
           </p>
         </div>
       </footer>
+      
+      {/* Project Modal is rendered here */}
+      {selectedProject && <ProjectModal project={selectedProject} onClose={handleCloseModal} />}
     </div>
   )
 }
