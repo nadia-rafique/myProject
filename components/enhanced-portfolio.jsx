@@ -316,14 +316,25 @@ const ProjectModal = ({ project, onClose }) => {
 
         {/* Modal Content */}
         <div className="relative">
-          {/* Image Section */}
+          {/* Image Section - NOW LINKS TO THE IMAGE FILE */}
           <div className="h-64 sm:h-80 w-full bg-gradient-to-br from-secondary/20 to-muted/20 overflow-hidden">
-             <img
-              src={project.image || "/placeholder.svg"}
-              alt={project.title}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+            <a
+              href={project.image} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              onClick={(e) => {
+                e.stopPropagation(); 
+              }}
+              className="block w-full h-full cursor-pointer group" 
+            >
+              <img
+                src={project.image || "/placeholder.svg"}
+                alt={project.title}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+              />
+            </a>
+            {/* The overlay is still needed for visual effect */}
+            <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent pointer-events-none" />
           </div>
 
           {/* Details Section */}
@@ -334,6 +345,7 @@ const ProjectModal = ({ project, onClose }) => {
             
             <div className="flex flex-wrap gap-2 mb-6">
               {project.tags.map((t) => (
+                // Assuming Badge component is defined elsewhere
                 <Badge key={t} variant="accent">
                   {t}
                 </Badge>
@@ -345,14 +357,14 @@ const ProjectModal = ({ project, onClose }) => {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg font-medium hover:from-accent hover:to-primary transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg font-medium hover:from-accent hover:to-primary transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
               >
                 <ExternalLink size={16} />
                 Visit Website
               </a>
               <button
                 onClick={onClose}
-                className="px-6 py-3 border border-border text-black bg-white cursor-pointer hover:text-white hover:border-white rounded-lg font-medium hover:bg-muted/50 transition-all flex items-center justify-center gap-2"
+                className="flex-1 px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-muted/50 transition-all flex items-center justify-center gap-2"
               >
                 Close
               </button>
@@ -416,7 +428,7 @@ const ContactForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 glass-effect p-6 rounded-xl relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 animate-rainbow-flow opacity-50" />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 animate-rainbow-flow opacity-50 h-full" />
       <div className="relative z-10 space-y-4">
         <div>
           <label className="text-sm font-medium text-foreground">Name</label>
