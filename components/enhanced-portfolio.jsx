@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
-import { Mail, Send, CheckCircle, ExternalLink, Github, Linkedin, Download, X } from "lucide-react" // Added 'X' for modal close
+import { Mail, Send, CheckCircle, ExternalLink, Github, Linkedin, Download, X } from "lucide-react" 
 
 const DATA = {
   name: "Nadia Rafique",
@@ -59,15 +59,15 @@ const DATA = {
       description:
         "Led frontend development of Prismecs' corporate site with responsive, modern UI, reusable components, and SEO optimisation.",
       url: "https://prismecs.com/",
-      image: "/modern-corporate-website-with-blue-theme.png",
+      image: "/modern-corporate-website-with-blue-theme.jpg",
     },
     {
       title: "eIndustrify Marketplace",
       tags: ["HTML5", "CSS3", "JavaScript", "Responsive Design", "Cross-Browser Compatibility"],
       description:
-        "Developed full frontend for eIndustrify's B2B industrial marketplace. Built product catalogue, category filtering, quick order forms, and improved UX for mobile/desktop.",
+        "Developed full frontend for eIndustrify's B2B industrial marketplace. Built product catalog, category filtering, quick order forms, and improved UX for mobile/desktop.",
       url: "https://eindustrify.com/",
-      image: "/industrial-marketplace-website-with-product-catalo.png",
+      image: "/industrial-marketplace-website-with-product-catalo.jpg",
     },
     {
       title: "Jamiah School Management System",
@@ -137,7 +137,7 @@ const Badge = ({ children, variant = "default", onClick }) => {
       "bg-gradient-to-r from-accent/20 to-primary/20 text-accent border-accent/30 hover:from-accent/30 hover:to-primary/30",
     secondary:
       "bg-gradient-to-r from-secondary to-muted text-secondary-foreground border-border hover:from-muted hover:to-secondary",
-    showMore: // New variant for the "+X more" badge
+    showMore: 
       "bg-gradient-to-r from-secondary/50 to-muted/50 text-secondary-foreground border-border hover:from-muted hover:to-secondary cursor-pointer",
   }
 
@@ -175,15 +175,12 @@ const ExperienceCard = ({ item, index }) => (
   </motion.div>
 )
 
-
-// Updated ProjectCard with verified image clickability
-
 const ProjectCard = ({ p, i, onCardClick }) => {
   const [showAllTags, setShowAllTags] = useState(false)
   const tagsToShow = showAllTags ? p.tags : p.tags.slice(0, 3)
 
   const handleBadgeClick = (e) => {
-    e.stopPropagation() // Prevent the card click from triggering when clicking the badge
+    e.stopPropagation() 
     setShowAllTags(true)
   }
 
@@ -192,17 +189,16 @@ const ProjectCard = ({ p, i, onCardClick }) => {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.1 + i * 0.05, duration: 0.4 }}
-      onClick={() => onCardClick(p)} // Click the card body to open modal
+      onClick={() => onCardClick(p)} 
       className="group block rounded-xl overflow-hidden glass-effect hover-lift relative cursor-pointer"
     >
       <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-0 group-hover:opacity-20 transition-opacity duration-500 animate-rainbow-flow" />
       <div className="relative z-10">
         <div className="relative h-48 w-full bg-gradient-to-br from-secondary/20 to-muted/20 overflow-hidden">
           
-          {/* -------------------- START FIX: IMAGE LINK WRAPPER -------------------- */}
           <a
-            href={p.url === '#' ? undefined: p.url} 
-            target="_blank"
+            href={p.url === '#' ? undefined : p.url} 
+            target="_blank" 
             rel="noopener noreferrer"
             onClick={(e) => {
               e.stopPropagation(); 
@@ -218,11 +214,9 @@ const ProjectCard = ({ p, i, onCardClick }) => {
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </a>
-          {/* -------------------- END FIX: IMAGE LINK WRAPPER -------------------- */}
-
+          
           <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
           
-          {/* View Button (Optional, as the image itself is now the main link) */}
           <div className="absolute bottom-4 right-4 z-30 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
             <a
               href={p.url}
@@ -247,13 +241,11 @@ const ProjectCard = ({ p, i, onCardClick }) => {
                 {t}
               </Badge>
             ))}
-            {/* Logic for the "+X more" badge */}
             {!showAllTags && p.tags.length > 3 && (
               <Badge variant="showMore" onClick={handleBadgeClick}>
                 +{p.tags.length - 3} more
               </Badge>
             )}
-            {/* Optional: Show "less" button if all are showing */}
             {showAllTags && p.tags.length > 3 && (
               <Badge variant="secondary" onClick={(e) => { e.stopPropagation(); setShowAllTags(false) }}>
                 Show less
@@ -266,11 +258,9 @@ const ProjectCard = ({ p, i, onCardClick }) => {
   )
 }
 
-// New Project Modal Component
 const ProjectModal = ({ project, onClose }) => {
   if (!project) return null
 
-  // Close modal when pressing the Escape key
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === 'Escape') {
@@ -296,10 +286,9 @@ const ProjectModal = ({ project, onClose }) => {
         animate={{ y: 0, scale: 1 }}
         exit={{ y: 50, scale: 0.9 }}
         transition={{ type: "spring", stiffness: 100, damping: 20 }}
-        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
+        onClick={(e) => e.stopPropagation()} 
         className="w-full max-w-4xl glass-effect rounded-xl relative overflow-hidden my-auto"
       >
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 z-50 p-2 rounded-full bg-background/50 text-foreground hover:bg-background transition-colors shadow-lg"
@@ -307,7 +296,6 @@ const ProjectModal = ({ project, onClose }) => {
           <X size={20} />
         </button>
 
-        {/* Modal Content */}
         <div className="relative">
           {/* Image Section - NOW LINKS TO THE IMAGE FILE */}
           <div className="h-64 sm:h-80 w-full bg-gradient-to-br from-secondary/20 to-muted/20 overflow-hidden">
@@ -326,11 +314,9 @@ const ProjectModal = ({ project, onClose }) => {
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
               />
             </a>
-            {/* The overlay is still needed for visual effect */}
             <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent pointer-events-none" />
           </div>
 
-          {/* Details Section */}
           <div className="p-6 sm:p-8 relative z-10">
             <h2 className="text-3xl font-bold gradient-text mb-2 text-balance">{project.title}</h2>
             
@@ -338,7 +324,6 @@ const ProjectModal = ({ project, onClose }) => {
             
             <div className="flex flex-wrap gap-2 mb-6">
               {project.tags.map((t) => (
-                // Assuming Badge component is defined elsewhere
                 <Badge key={t} variant="accent">
                   {t}
                 </Badge>
@@ -350,14 +335,14 @@ const ProjectModal = ({ project, onClose }) => {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-2 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg font-medium hover:from-accent hover:to-primary transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-lg font-medium hover:from-accent hover:to-primary transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
               >
                 <ExternalLink size={16} />
                 Visit Website
               </a>
               <button
                 onClick={onClose}
-                className="px-6 py-2 border border-transparent text-black hover:text-white bg-white hover:border-white rounded-lg font-medium hover:bg-muted/50 transition-all flex items-centre justify-centre gap-2"
+                className="flex-1 px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-muted/50 transition-all flex items-center justify-center gap-2"
               >
                 Close
               </button>
@@ -377,36 +362,87 @@ const ContactForm = () => {
     message: "",
   })
   const [status, setStatus] = useState("idle")
+  const [errors, setErrors] = useState({})
+
+  // Regex for basic client-side checks
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const numberRegex = /\d/; 
+
+  const validateField = (name, value) => {
+    let error = "";
+    
+    if (!value.trim()) {
+      error = `${name.charAt(0).toUpperCase() + name.slice(1)} is required.`;
+    } else if (name === "email" && !emailRegex.test(value)) {
+      error = "Please enter a valid email address.";
+    } else if (name === "name") {
+      if (value.trim().length < 2) {
+        error = "Name must be at least 2 characters.";
+      } else if (numberRegex.test(value)) {
+        error = "Name cannot contain numbers.";
+      }
+    } else if (name === "message" && value.trim().length < 10) {
+        error = "Message must be at least 10 characters.";
+    }
+    
+    setErrors(prevErrors => ({
+      ...prevErrors,
+      [name]: error,
+    }));
+    return error.length === 0;
+  };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
-  }
+    const { name, value } = e.target;
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+    
+    validateField(name, value);
+  };
+
+  const validateForm = () => {
+    let isValid = true;
+    
+    if (!validateField('name', formData.name)) isValid = false;
+    if (!validateField('email', formData.email)) isValid = false;
+    
+    if (!formData.message.trim() || formData.message.trim().length < 10) {
+        setErrors(prevErrors => ({ ...prevErrors, message: "Message must be at least 10 characters." }));
+        isValid = false;
+    } else {
+        setErrors(prevErrors => ({ ...prevErrors, message: "" }));
+    }
+
+    return isValid;
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setStatus("sending")
+    e.preventDefault();
+
+    if (!validateForm()) {
+      setStatus("error-validation");
+      setTimeout(() => setStatus("idle"), 5000); 
+      return;
+    }
+
+    setStatus("sending");
 
     try {
-      // NOTE: This is a placeholder for a real API endpoint
-      // const response = await fetch("/api/contact", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(formData),
-      // })
-      // const result = await response.json()
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
       
-      // Simulating API call success/failure
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      const response = { ok: true }; 
-
+      
       if (response.ok) {
         setStatus("success")
         setFormData({ name: "", email: "", message: "" })
+        setErrors({}); 
         setTimeout(() => setStatus("idle"), 5000)
       } else {
         setStatus("error")
@@ -423,6 +459,7 @@ const ContactForm = () => {
     <form onSubmit={handleSubmit} className="space-y-4 glass-effect p-6 rounded-xl relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 animate-rainbow-flow opacity-50 h-full" />
       <div className="relative z-10 space-y-4">
+        {/* Name Field */}
         <div>
           <label className="text-sm font-medium text-foreground">Name</label>
           <input
@@ -431,10 +468,19 @@ const ContactForm = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full mt-2 bg-input/80 backdrop-blur-sm border border-border rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+            className={`w-full mt-2 bg-input/80 backdrop-blur-sm border rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 transition-all ${
+              errors.name ? 'border-red-500 focus:ring-red-500/50' : 'border-border focus:ring-primary/50 focus:border-primary'
+            }`}
             placeholder="Your name"
           />
+          {errors.name && (
+            <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+              {errors.name}
+            </p>
+          )}
         </div>
+        
+        {/* Email Field */}
         <div>
           <label className="text-sm font-medium text-foreground">Email</label>
           <input
@@ -443,10 +489,19 @@ const ContactForm = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full mt-2 bg-input/80 backdrop-blur-sm border border-border rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+            className={`w-full mt-2 bg-input/80 backdrop-blur-sm border rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 transition-all ${
+              errors.email ? 'border-red-500 focus:ring-red-500/50' : 'border-border focus:ring-primary/50 focus:border-primary'
+            }`}
             placeholder="you@email.com"
           />
+          {errors.email && (
+            <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+              {errors.email}
+            </p>
+          )}
         </div>
+        
+        {/* Message Field */}
         <div>
           <label className="text-sm font-medium text-foreground">Message</label>
           <textarea
@@ -454,11 +509,20 @@ const ContactForm = () => {
             value={formData.message}
             onChange={handleChange}
             required
-            className="w-full mt-2 bg-input/80 backdrop-blur-sm border border-border rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none"
+            className={`w-full mt-2 bg-input/80 backdrop-blur-sm border rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 transition-all resize-none ${
+              errors.message ? 'border-red-500 focus:ring-red-500/50' : 'border-border focus:ring-primary/50 focus:border-primary'
+            }`}
             rows={4}
             placeholder="Tell me about your project..."
           />
+           {errors.message && (
+            <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+              {errors.message}
+            </p>
+          )}
         </div>
+        
+        {/* Submit Button */}
         <div>
           <button
             type="submit"
@@ -479,6 +543,7 @@ const ContactForm = () => {
           </button>
         </div>
 
+        {/* Status Messages */}
         {status === "success" && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -498,6 +563,16 @@ const ContactForm = () => {
           >
             <Mail size={16} />
             Failed to send message. Please email me directly at nadiarafique1441@gmail.com
+          </motion.div>
+        )}
+         {status === "error-validation" && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-2 text-red-400 text-sm bg-red-400/10 p-3 rounded-lg border border-red-400/30"
+          >
+            <Mail size={16} />
+            Please correct the errors in the form before submitting.
           </motion.div>
         )}
       </div>
@@ -520,7 +595,7 @@ const Navigation = () => {
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({
-        behavior: "smooth",
+        behaviour: "smooth",
         block: "start",
       })
     }
@@ -531,7 +606,7 @@ const Navigation = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "glass-effect shadow-lg" : "bg-transparent"
+        isScrolled ? "glass-effect shadow-lg": "bg-transparent"
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -545,7 +620,7 @@ const Navigation = () => {
           </div>
         </motion.div>
 
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-centre gap-6">
           {[
             { name: "About", id: "about" },
             { name: "Projects", id: "projects" },
@@ -577,17 +652,16 @@ export default function PortfolioSingleFile() {
   const { scrollYProgress } = useScroll()
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
 
-  // State for the modal
   const [selectedProject, setSelectedProject] = useState(null)
 
   const handleProjectClick = (project) => {
     setSelectedProject(project)
-    document.body.style.overflow = 'hidden'; // Disable background scroll
+    document.body.style.overflow = 'hidden'; 
   }
 
   const handleCloseModal = () => {
     setSelectedProject(null)
-    document.body.style.overflow = 'unset'; // Enable background scroll
+    document.body.style.overflow = 'unset'; 
   }
 
   return (
@@ -736,7 +810,6 @@ export default function PortfolioSingleFile() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Pass the click handler to ProjectCard */}
             {DATA.projects.map((project, i) => (
               <ProjectCard key={project.title} p={project} i={i} onCardClick={handleProjectClick} />
             ))}
@@ -855,7 +928,6 @@ export default function PortfolioSingleFile() {
         </div>
       </footer>
       
-      {/* Project Modal is rendered here */}
       {selectedProject && <ProjectModal project={selectedProject} onClose={handleCloseModal} />}
     </div>
   )
